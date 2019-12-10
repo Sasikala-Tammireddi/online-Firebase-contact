@@ -1,39 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit } from "@angular/core";
+import { NavController } from "@ionic/angular";
+import { FirebaseService } from "../firebase.service";
 @Component({
-  selector: 'app-list',
-  templateUrl: 'list.page.html',
-  styleUrls: ['list.page.scss']
+  selector: "app-list",
+  templateUrl: "list.page.html",
+  styleUrls: ["list.page.scss"]
 })
 export class ListPage implements OnInit {
-  private selectedItem: any;
-  private icons = [
-    'flask',
-    'wifi',
-    'beer',
-    'football',
-    'basketball',
-    'paper-plane',
-    'american-football',
-    'boat',
-    'bluetooth',
-    'build'
-  ];
-  public items: Array<{ title: string; note: string; icon: string }> = [];
-  constructor() {
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
-  }
+  public contacts: Array<any> = [];
+  constructor(
+    private navCtrl: NavController,
+    private firebaseService: FirebaseService
+  ) {}
 
   ngOnInit() {
+    this.getContacts();
   }
-  // add back when alpha.4 is out
-  // navigate(item) {
-  //   this.router.navigate(['/list', JSON.stringify(item)]);
-  // }
+
+  addContact() {
+    this.navCtrl.navigateRoot("home");
+    this.getContacts();
+  }
+
+  getContacts() {
+    this.firebaseService.getContacts().then(
+      (data: any) => {
+        this.contacts = data;
+        console.log(data);
+      },
+      err => {
+        console.log("Error::::::", err);
+      }
+    );
+  }
+
+  updateContact() {
+    this.navCtrl.navigateRoot("update-contact");
+    this.getContacts();
+  }
+
+  deleteContact(contact) {
+    this.firebaseService.deleteContact(contact.mobile);
+    this.getContacts();
+  }
 }

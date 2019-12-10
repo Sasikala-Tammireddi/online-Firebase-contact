@@ -16,6 +16,7 @@ export class HomePage {
 contactForm: FormGroup;
   constructor( private formBuilder: FormBuilder , private firebase: FirebaseService) {
     this.createForm();
+
   }
   createForm() {
     this.contactForm = this.formBuilder.group({
