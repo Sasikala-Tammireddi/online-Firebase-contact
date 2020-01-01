@@ -1,30 +1,33 @@
-import { Injectable } from "@angular/core";
-import * as firebase from "firebase";
-import "firebase/firestore";
-import { resolve } from "url";
+import { Injectable } from '@angular/core';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+import { resolve } from 'url';
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class FirebaseService {
   contactDatabase: any;
   contactCollection: any;
   constructor() {
     this.contactDatabase = firebase.firestore;
-    this.contactCollection = this.contactDatabase().collection("Contacts");
+    this.contactCollection = this.contactDatabase().collection('Contacts');
   }
 
   addContact(contactData) {
-    this.contactCollection
-      .doc(contactData.mobile)
-      .set(contactData)
-      .then(
-        resp => {
-          console.log("contact added Succesfully");
-        },
-        err => {
-          console.log("Error ::::::::::", err);
-        }
-      );
+    // tslint:disable-next-line:no-shadowed-variable
+    return new Promise((resolve, reject) => {
+      this.contactCollection
+        .doc(contactData.mobile)
+        .set(contactData)
+        .then(
+          data => {
+            resolve(data);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
   }
 
   getContacts() {
@@ -46,30 +49,36 @@ export class FirebaseService {
   }
 
   updateContact(contactData) {
-    this.contactCollection
-      .doc(contactData.mobile)
-      .update(contactData)
-      .then(
-        resp => {
-          console.log("Contact Updated Successfully");
-        },
-        err => {
-          console.log("Error :::::::::::::", err);
-        }
-      );
+    // tslint:disable-next-line:no-shadowed-variable
+    return new Promise((resolve, reject) => {
+      this.contactCollection
+        .doc(contactData.mobile)
+        .update(contactData)
+        .then(
+          data => {
+            resolve(data);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
   }
 
   deleteContact(mobile) {
-    this.contactCollection
-      .doc(mobile)
-      .delete()
-      .then(
-        resp => {
-          console.log("Contact deleted successfully");
-        },
-        err => {
-          console.log("Error:::::::::", err);
-        }
-      );
+    // tslint:disable-next-line:no-shadowed-variable
+    return new Promise((resolve, reject) => {
+      this.contactCollection
+        .doc(mobile)
+        .delete()
+        .then(
+          data => {
+            resolve(data);
+          },
+          error => {
+            reject(error);
+          }
+        );
+    });
   }
 }

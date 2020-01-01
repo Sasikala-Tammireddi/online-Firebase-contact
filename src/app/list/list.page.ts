@@ -1,25 +1,41 @@
-import { Component, OnInit } from "@angular/core";
-import { NavController } from "@ionic/angular";
-import { FirebaseService } from "../firebase.service";
+import { Component, OnInit } from '@angular/core';
+import {
+  NavController,
+  ModalController,
+  ToastController
+} from '@ionic/angular';
+import { FirebaseService } from '../firebase.service';
+import { HomePage } from '../home/home.page';
+import { UpdateContactPage } from '../update-contact/update-contact.page';
+import { Router } from '@angular/router';
 @Component({
-  selector: "app-list",
-  templateUrl: "list.page.html",
-  styleUrls: ["list.page.scss"]
+  selector: 'app-list',
+  templateUrl: 'list.page.html',
+  styleUrls: ['list.page.scss']
 })
 export class ListPage implements OnInit {
   public contacts: Array<any> = [];
   constructor(
     private navCtrl: NavController,
-    private firebaseService: FirebaseService
-  ) {}
-
-  ngOnInit() {
+    private firebaseService: FirebaseService,
+    private modalCtrl: ModalController,
+    private router: Router,
+    private toastController: ToastController
+  ) {
     this.getContacts();
   }
 
+  ngOnInit() {}
+
   addContact() {
-    this.navCtrl.navigateRoot("home");
-    this.getContacts();
+    const modal = this.modalCtrl
+      .create({ component: HomePage })
+      .then(modalElement => {
+        modalElement.present();
+        modalElement.onDidDismiss().then(() => {
+          this.getContacts();
+        });
+      });
   }
 
   getContacts() {
@@ -29,18 +45,39 @@ export class ListPage implements OnInit {
         console.log(data);
       },
       err => {
-        console.log("Error::::::", err);
+        console.log('Error::::::', err);
       }
     );
   }
-
-  updateContact() {
-    this.navCtrl.navigateRoot("update-contact");
-    this.getContacts();
+  updateContact(contact) {
+    this.modalCtrl
+      .create({
+        component: UpdateContactPage,
+        componentProps: {
+          data: contact
+        }
+      })
+      .then(modalElement => {
+        modalElement.present();
+        modalElement.onDidDismiss().then(() => {
+          this.getContacts();
+        });
+      });
   }
 
   deleteContact(contact) {
-    this.firebaseService.deleteContact(contact.mobile);
-    this.getContacts();
+    this.firebaseService.deleteContact(contact.mobile).then(
+      async () => {
+        const toast = await this.toastController.create({
+          message: 'Contact deleted Successfully.',
+          duration: 2000
+        });
+        toast.present();
+        this.getContacts();
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 }
