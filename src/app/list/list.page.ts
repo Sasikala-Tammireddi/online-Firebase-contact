@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  NavController,
   ModalController,
   ToastController
 } from '@ionic/angular';
@@ -16,7 +15,6 @@ import { Router } from '@angular/router';
 export class ListPage implements OnInit {
   public contacts: Array<any> = [];
   constructor(
-    private navCtrl: NavController,
     private firebaseService: FirebaseService,
     private modalCtrl: ModalController,
     private router: Router,
@@ -25,8 +23,11 @@ export class ListPage implements OnInit {
     this.getContacts();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
+  /**
+   * @description this method opens add contact page as a modal
+   */
   addContact() {
     const modal = this.modalCtrl
       .create({ component: HomePage })
@@ -38,6 +39,9 @@ export class ListPage implements OnInit {
       });
   }
 
+  /**
+   * @description This method allows to retriew contacts
+   */
   getContacts() {
     this.firebaseService.getContacts().then(
       (data: any) => {
@@ -49,6 +53,11 @@ export class ListPage implements OnInit {
       }
     );
   }
+
+  /**
+   * @description this method opens update contact page as a modal
+   * @param (object)contact 
+   */
   updateContact(contact) {
     this.modalCtrl
       .create({
@@ -65,6 +74,10 @@ export class ListPage implements OnInit {
       });
   }
 
+  /**
+   * @description this method calls delete contact method in firebase service.
+   * @param (object) contact 
+   */
   deleteContact(contact) {
     this.firebaseService.deleteContact(contact.mobile).then(
       async () => {

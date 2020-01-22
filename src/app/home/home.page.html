@@ -15,23 +15,55 @@
             <ion-label position="floating">Contact Number</ion-label>
             <ion-input type="tel" formControlName="mobile"></ion-input>
           </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationmessages.mobile">
+              <div class="error-message"
+                *ngIf="contactForm.get('mobile').hasError(validation.type) && (contactForm.get('mobile').dirty ||contactForm.get('mobile').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
         </ion-col>
         <ion-col size=" 12">
           <ion-item>
             <ion-label position="floating">Date</ion-label>
             <ion-datetime displayFormat="D MMM YYYY H:mm" formControlName="date"></ion-datetime>
           </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationmessages.date">
+              <div class="error-message"
+                *ngIf="contactForm.get('date').hasError(validation.type) && (contactForm.get('date').dirty ||contactForm.get('date').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
         </ion-col>
         <ion-col size="12">
           <ion-item>
             <ion-label position="floating">Title</ion-label>
             <ion-input type="text" formControlName="title"></ion-input>
           </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationmessages.title">
+              <div class="error-message"
+                *ngIf="contactForm.get('title').hasError(validation.type) && (contactForm.get('title').dirty ||contactForm.get('title').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
         </ion-col>
         <ion-col size="12">
           <ion-item>
             <ion-textarea type="text" formControlName="description">Description</ion-textarea>
           </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationmessages.description">
+              <div class="error-message"
+                *ngIf="contactForm.get('description').hasError(validation.type) && (contactForm.get('description').dirty ||contactForm.get('description').touched)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
         </ion-col>
       </ion-row>
       <ion-button expand="block" type="submit" color="dark" (click)="onSubmit(contactForm.value)">Submit</ion-button>

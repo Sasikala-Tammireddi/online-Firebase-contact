@@ -14,7 +14,6 @@ import { ToastController, ModalController } from '@ionic/angular';
   styleUrls: ['home.page.scss']
 })
 export class HomePage {
-  contactForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
     private firebase: FirebaseService,
@@ -23,16 +22,50 @@ export class HomePage {
   ) {
     this.createForm();
   }
+  contactForm: FormGroup;
+  validationmessages = {
+   'mobile': [
+      { type: 'required', message: 'Mobile number is required.' },
+      {
+        type: 'minlength',
+        message: 'Mobile must be at least 10 characters long.'
+      },
+      {
+        type: 'maxlength',
+        message: 'mobile cannot be more than 10 characters long.'
+      }
+    ],
+    'date': [
+      { type: 'required', message: 'Date is required.' }
+    ],
+    'title': [
+      { type: 'required', message: 'Please enter title.' }
+    ],
+    'description': [
+      { type: 'required', message: 'Description is required.' }
+    ]
+  };
 
   createForm() {
     this.contactForm = this.formBuilder.group({
-      mobile: new FormControl('', Validators.required),
+      mobile: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(10),
+          Validators.minLength(10)
+        ])
+      ),
       date: new FormControl('', Validators.required),
       title: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required)
     });
   }
 
+   /**
+   * @description this method calls add contact method in firebase service.
+   * @param (object) contactFormValue 
+   */
   onSubmit(contactFormValue) {
     console.log(contactFormValue);
     this.firebase.addContact(contactFormValue).then(

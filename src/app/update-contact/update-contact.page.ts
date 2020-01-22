@@ -17,7 +17,28 @@ import { ToastController, NavParams, ModalController } from '@ionic/angular';
 export class UpdateContactPage implements OnInit {
   contactForm: FormGroup;
   public info: any;
-
+  validationmessages = {
+    'mobile': [
+      { type: 'required', message: 'Mobile number is required.' },
+      {
+        type: 'minlength',
+        message: 'Mobile must be at least 10 characters long.'
+      },
+      {
+        type: 'maxlength',
+        message: 'mobile cannot be more than 10 characters long.'
+      }
+    ],
+    'date': [
+      { type: 'required', message: 'Date is required.' }
+    ],
+    'title': [
+      { type: 'required', message: 'Please enter title.' }
+    ],
+    'description': [
+      { type: 'required', message: 'Description is required.' }
+    ]
+  };
   constructor(
     private formBuilder: FormBuilder,
     private firebase: FirebaseService,
@@ -30,7 +51,7 @@ export class UpdateContactPage implements OnInit {
     this.createForm();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   createForm() {
     this.contactForm = this.formBuilder.group({
@@ -43,6 +64,10 @@ export class UpdateContactPage implements OnInit {
     this.contactForm.patchValue(this.info);
   }
 
+  /**
+  * @description this method calls update contact method in firebase service.
+  * @param (object) contactFormValue 
+  */
   onSubmit(contactFormValue) {
     console.log(contactFormValue);
     this.firebase.updateContact(contactFormValue).then(
