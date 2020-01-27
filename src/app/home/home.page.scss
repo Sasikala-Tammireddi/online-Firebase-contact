@@ -1,4 +1,42 @@
-.error-message{
-    color:red;
-    font-size: xx-small;
-}
+    .error-message{
+        color:red;
+        font-size: small;
+        margin-left: auto;
+    }
+    ion-icon{
+    margin-left: 290px;
+    font-size: xx-large;
+    font-weight: bolder;
+    color:#34495E;
+    }
+    img{
+        width:125px;
+        height:125px;
+        margin-left:110px;
+        margin-top: 20px;
+    }
+    p{
+        font-size: x-large;
+        font-family: sans-serif;
+        margin-top: 10px;
+        margin-left:100px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .button{
+        margin-top: 40px;
+         height:45px;
+         --background:#34495E !important;
+         font-weight: bolder;
+         color:white;
+    }
+    ion-item{
+        border-radius: 5px;
+        color:black;
+        --background:#EBEDEF !important;
+        border:1px solid lightgray;
+    }
+    #input{
+        height:45px;
+    }
+    

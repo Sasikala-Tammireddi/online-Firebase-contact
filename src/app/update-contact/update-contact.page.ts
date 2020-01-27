@@ -8,6 +8,7 @@ import {
 import { FirebaseService } from '../firebase.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController, NavParams, ModalController } from '@ionic/angular';
+import { validationMessages } from 'src/app/validationMessages';
 
 @Component({
   selector: 'app-update-contact',
@@ -15,30 +16,10 @@ import { ToastController, NavParams, ModalController } from '@ionic/angular';
   styleUrls: ['./update-contact.page.scss']
 })
 export class UpdateContactPage implements OnInit {
-  contactForm: FormGroup;
+  public contactForm: FormGroup;
   public info: any;
-  validationmessages = {
-    'mobile': [
-      { type: 'required', message: 'Mobile number is required.' },
-      {
-        type: 'minlength',
-        message: 'Mobile must be at least 10 characters long.'
-      },
-      {
-        type: 'maxlength',
-        message: 'mobile cannot be more than 10 characters long.'
-      }
-    ],
-    'date': [
-      { type: 'required', message: 'Date is required.' }
-    ],
-    'title': [
-      { type: 'required', message: 'Please enter title.' }
-    ],
-    'description': [
-      { type: 'required', message: 'Description is required.' }
-    ]
-  };
+  public validationmessages = validationMessages;
+
   constructor(
     private formBuilder: FormBuilder,
     private firebase: FirebaseService,
@@ -57,11 +38,18 @@ export class UpdateContactPage implements OnInit {
     this.contactForm = this.formBuilder.group({
       mobile: new FormControl('', Validators.required),
       date: new FormControl('', Validators.required),
-      title: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required)
     });
     console.log('contact:::::::::::::::\n', this.info);
     this.contactForm.patchValue(this.info);
+  }
+
+  /**
+   * @description  closes modal
+   */
+  dismissModal() {
+    this.modalCtrl.dismiss();
   }
 
   /**
@@ -77,7 +65,6 @@ export class UpdateContactPage implements OnInit {
           duration: 2000
         });
         toast.present();
-        this.modalCtrl.dismiss();
       },
       err => {
         console.log(err);

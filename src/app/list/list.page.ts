@@ -85,8 +85,8 @@ export class ListPage implements OnInit {
           message: 'Contact deleted Successfully.',
           duration: 2000
         });
-        toast.present();
         this.getContacts();
+        toast.present();
       },
       err => {
         console.log(err);

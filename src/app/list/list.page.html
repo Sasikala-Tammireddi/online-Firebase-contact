@@ -1,16 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Contacts List</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content class="text">
+  <ion-item id="title">
+    <ion-label>Contacts List</ion-label>
+  </ion-item>
   <ion-list>
     <ion-item-sliding *ngFor="let contact of contacts">
       <ion-item>
         <ion-label>
-          <h2>{{contact.title}}</h2>
-          <p>{{contact.mobile}}</p>
+          <h2>{{contact.name}}</h2>
+          <!-- <p>{{contact.mobile}}</p> -->
           <p>{{contact.description}}</p>
         </ion-label>
         <ion-note slot="end">
@@ -20,11 +17,11 @@
         </ion-note>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option color="danger">
-          <ion-icon slot="icon-only" name="trash" (click)="deleteContact(contact)"></ion-icon>
+        <ion-item-option color="white">
+          <ion-icon id="icon1" slot="icon-only" name="trash" (click)="deleteContact(contact)"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="secondary">
-          <ion-icon slot="icon-only" name="create" (click)="updateContact(contact)"></ion-icon>
+        <ion-item-option color="white">
+          <ion-icon id="icon2" slot="icon-only" name="create" (click)="updateContact(contact)"></ion-icon>
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
